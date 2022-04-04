@@ -9,12 +9,14 @@ public class playerMovement : MonoBehaviour
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
 
-    public Transform cam;
+    //public Transform cam;
 
     public bool groundedPlayer;
     private Vector3 playerVelocity;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
+    public float jumpMultipler = -3.0f;
+    public float jumpSpeed = 3f;
     //[SerializeField] private Animator animator;
     // Start is called before the first frame update
     void Start()
@@ -37,7 +39,7 @@ public class playerMovement : MonoBehaviour
 
         if(direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z)*Mathf.Rad2Deg + cam.eulerAngles.y; //get angle of player, add camera rotation so that cam follows
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;// + cam.eulerAngles.y; //get angle of player, add camera rotation so that cam follows
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,turnSmoothTime); //smooth the rotation of angle
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
@@ -48,11 +50,11 @@ public class playerMovement : MonoBehaviour
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * -3.0f * gravityValue);
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * jumpMultipler * gravityValue);
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
-        controller.Move(playerVelocity * Time.deltaTime);
+        controller.Move(playerVelocity * Time.deltaTime* jumpSpeed);
 
 
         //animator.SetFloat("MoveSpeed", speed);
