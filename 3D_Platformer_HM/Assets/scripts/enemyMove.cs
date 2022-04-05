@@ -19,7 +19,7 @@ public class enemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //if reach one end, turn around
         if (transform.position == endPos.position && toEnd)
         {
             toEnd = false;
@@ -35,12 +35,14 @@ public class enemyMove : MonoBehaviour
 
         if (toEnd)
         {
-            transform.position = Vector3.MoveTowards(transform.position, endPos.position, Time.deltaTime * enemySpeed);
+            transform.position = Vector3.MoveTowards(transform.position, endPos.position, Time.deltaTime * enemySpeed);     //move towards the other end
             Vector3 relativePos = endPos.position - strPos.position;
             //transform.LookAt(endPos.position);
             //Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
             //transform.rotation = rotation;
-            transform.localScale = new Vector3(-1,1,1);
+            transform.localScale = new Vector3(-1,1,1);     //not sure why look at or look rotation didn't work, I think it has to do something with how the
+                                                            //object prefab was originally oriented
+                                                            //instead I flip the object by -1 to x scale
         }
         else
         {

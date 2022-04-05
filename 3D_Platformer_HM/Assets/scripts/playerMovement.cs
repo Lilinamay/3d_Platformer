@@ -8,9 +8,6 @@ public class playerMovement : MonoBehaviour
     public float speed = 6f;
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
-
-    //public Transform cam;
-
     public bool groundedPlayer = false;
     private Vector3 playerVelocity;
     private float jumpHeight = 1.0f;
@@ -39,7 +36,7 @@ public class playerMovement : MonoBehaviour
 
         if(direction.magnitude >= 0.1f)
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;// + cam.eulerAngles.y; //get angle of player, add camera rotation so that cam follows
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;  //get angle of playe
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity,turnSmoothTime); //smooth the rotation of angle
             transform.rotation = Quaternion.Euler(0, angle, 0);
 
@@ -54,14 +51,14 @@ public class playerMovement : MonoBehaviour
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
-            playerVelocity.y += Mathf.Sqrt(jumpHeight * jumpMultipler * gravityValue);
-            //animator.SetBool("Ground", false);
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * jumpMultipler * gravityValue);  //jump velocity
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime* jumpSpeed);
 
-        animator.SetFloat("MoveSpeed", direction.magnitude);
-        groundedPlayer = controller.isGrounded;
+        animator.SetFloat("MoveSpeed", direction.magnitude);        //if magnitude =0, switch to idle
+
+        groundedPlayer = controller.isGrounded;     //ground bool
     }
 }

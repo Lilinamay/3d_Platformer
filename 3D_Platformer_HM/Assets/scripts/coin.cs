@@ -5,10 +5,12 @@ using UnityEngine;
 public class coin : MonoBehaviour
 {
     float angle = 90;
+    coinDisplay coinDisplay;
+    [SerializeField] int coinValue = 1;
     // Start is called before the first frame update
     void Start()
     {
-        
+        coinDisplay = GetComponentInParent<coinDisplay>();
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class coin : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            coinDisplay.totalC += coinValue;            //collide with player, total coin num +1
             Destroy(gameObject);
         }
     }
