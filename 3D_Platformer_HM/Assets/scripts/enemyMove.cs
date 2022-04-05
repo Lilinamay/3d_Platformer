@@ -37,17 +37,19 @@ public class enemyMove : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, endPos.position, Time.deltaTime * enemySpeed);
             Vector3 relativePos = endPos.position - strPos.position;
-            transform.LookAt(endPos.position);
+            //transform.LookAt(endPos.position);
             //Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
             //transform.rotation = rotation;
+            transform.localScale = new Vector3(-1,1,1);
         }
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, strPos.position, Time.deltaTime * enemySpeed);
             Vector3 relativePos = strPos.position - endPos.position;
-            transform.LookAt(strPos.position);
+            //transform.LookAt(strPos.position);
             //Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
             //transform.rotation = rotation;
+            transform.localScale = new Vector3(1, 1, 1);
         }
 
 

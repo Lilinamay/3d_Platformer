@@ -17,7 +17,7 @@ public class playerMovement : MonoBehaviour
     private float gravityValue = -9.81f;
     public float jumpMultipler = -3.0f;
     public float jumpSpeed = 3f;
-    //[SerializeField] private Animator animator;
+    [SerializeField] private Animator animator;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +31,9 @@ public class playerMovement : MonoBehaviour
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
+            //animator.SetTrigger("Land");
         }
+
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");  //raw input of -1 and 1
@@ -46,17 +48,21 @@ public class playerMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             controller.Move(moveDir.normalized * speed* Time.deltaTime);     //if moving, set movement in controller, *time.deltatime to be independent from framerate
         }
+        else
+        {
+            //animator.SetBool("Ground", false);
+        }
 
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump") && groundedPlayer)
         {
             playerVelocity.y += Mathf.Sqrt(jumpHeight * jumpMultipler * gravityValue);
+            //animator.SetBool("Ground", false);
         }
 
         playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(playerVelocity * Time.deltaTime* jumpSpeed);
 
-
-        //animator.SetFloat("MoveSpeed", speed);
+        animator.SetFloat("MoveSpeed", direction.magnitude);
     }
 }
