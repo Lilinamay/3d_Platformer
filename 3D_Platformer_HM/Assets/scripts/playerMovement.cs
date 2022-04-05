@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//player WASD movement, space to jump, and simple walk animation
 public class playerMovement : MonoBehaviour
 {
     public CharacterController controller;
@@ -11,7 +11,7 @@ public class playerMovement : MonoBehaviour
 
     //public Transform cam;
 
-    public bool groundedPlayer;
+    public bool groundedPlayer = false;
     private Vector3 playerVelocity;
     private float jumpHeight = 1.0f;
     private float gravityValue = -9.81f;
@@ -27,13 +27,11 @@ public class playerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        groundedPlayer = controller.isGrounded;
+
         if (groundedPlayer && playerVelocity.y < 0)
         {
             playerVelocity.y = 0f;
-            //animator.SetTrigger("Land");
         }
-
 
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");  //raw input of -1 and 1
@@ -48,10 +46,10 @@ public class playerMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
             controller.Move(moveDir.normalized * speed* Time.deltaTime);     //if moving, set movement in controller, *time.deltatime to be independent from framerate
         }
-        else
-        {
-            //animator.SetBool("Ground", false);
-        }
+
+        
+
+
 
         // Changes the height position of the player..
         if (Input.GetButtonDown("Jump") && groundedPlayer)
@@ -64,5 +62,6 @@ public class playerMovement : MonoBehaviour
         controller.Move(playerVelocity * Time.deltaTime* jumpSpeed);
 
         animator.SetFloat("MoveSpeed", direction.magnitude);
+        groundedPlayer = controller.isGrounded;
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//enemy movement and trigger
 public class enemyMove : MonoBehaviour
 {
 
@@ -51,6 +51,27 @@ public class enemyMove : MonoBehaviour
             //transform.rotation = rotation;
             transform.localScale = new Vector3(1, 1, 1);
         }
+
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            StartCoroutine(attack());
+        }
+    }
+
+    IEnumerator attack()
+    {
+        Color myColor = GetComponent<Renderer>().material.color;
+        GetComponent<Renderer>().material.color = Color.red;
+
+        yield return new WaitForSeconds(0.5f);
+        GetComponent<Renderer>().material.color = myColor;
+
 
 
 
